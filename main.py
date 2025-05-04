@@ -1,14 +1,10 @@
-from typing import Optional
-
+import uvicorn
 from fastapi import FastAPI
 
-app = FastAPI()
+from controllers.API_controller import app
 
+main_api = FastAPI()
+main_api.include_router(app)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+if __name__ == "__main__":
+    uvicorn.run("main:main_api", host="127.0.0.1", port=8000, reload=True)
